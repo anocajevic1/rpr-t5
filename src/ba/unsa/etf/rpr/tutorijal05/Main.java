@@ -35,9 +35,9 @@ public final class Main extends Application {
     @FXML
     protected void handleOnAnyButtonClicked(ActionEvent evt) {
         Button button = (Button)evt.getSource(); // koja je tipka
-        final String buttonText = button.getText();
+        final String buttonText = button.getText(); // uzmi naziv tipke da mozes traziti dolje
 
-        if (buttonText.matches("[0-9\\.]")) {
+        if (buttonText.matches("[0-9\\.]")) { // ako je pritisnut broj
             if (!numberInputting) {
                 numberInputting = true;
                 display.clear();
@@ -45,13 +45,13 @@ public final class Main extends Application {
             display.appendText(buttonText);
             return;
         }
-        if (buttonText.matches("[＋－×/%]")) {
+        if (buttonText.matches("[＋－×/%]")) { // ako je pritisnuta tipka
             left = new BigDecimal(display.getText());
             selectedOperator = buttonText;
             numberInputting = false;
             return;
         }
-        if (buttonText.equals("=")) {
+        if (buttonText.equals("=")) { // ako je jednako
             final BigDecimal right = numberInputting ? new BigDecimal(display.getText()) : left;
             left = calculate(selectedOperator, left, right);
             display.setText(left.toString());
@@ -60,7 +60,7 @@ public final class Main extends Application {
         }
     }
 
-    static BigDecimal calculate(String operator, BigDecimal left, BigDecimal right) {
+    static BigDecimal calculate(String operator, BigDecimal left, BigDecimal right) { // gdje se svo racunanje vrsi
         switch (operator) {
             case "＋":
                 return left.add(right);
@@ -68,8 +68,10 @@ public final class Main extends Application {
                 return left.subtract(right);
             case "×":
                 return left.multiply(right);
-            case "÷":
+            case "/":
                 return left.divide(right);
+            case "%":
+                return left.remainder(right);
             default:
         }
         return right;
